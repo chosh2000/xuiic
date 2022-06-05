@@ -45,6 +45,7 @@ def _hungarian_match(flat_preds, flat_targets, preds_k, targets_k):
       num_correct[c1, c2] = votes
 
   # num_correct is small
+  print(match)
   match = linear_assignment(num_samples - num_correct)
 
   # return as list of tuples, out_c to gt_c
