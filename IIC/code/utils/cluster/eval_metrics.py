@@ -46,7 +46,7 @@ def _hungarian_match(flat_preds, flat_targets, preds_k, targets_k):
 
   # num_correct is small
   match = linear_assignment(num_samples - num_correct)
-  print(match)
+  print(match[0])
 
   # return as list of tuples, out_c to gt_c
   res = []
