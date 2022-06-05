@@ -58,7 +58,7 @@ parser.add_argument("--lr", type=float, default=0.0001)
 parser.add_argument("--lr_schedule", type=int, nargs="+", default=[])
 parser.add_argument("--lr_mult", type=float, default=0.1)
 
-parser.add_argument("--num_epochs", type=int, default=100)
+parser.add_argument("--num_epochs", type=int, default=10)
 parser.add_argument("--batch_sz", type=int, default=700)  # num pairs
 parser.add_argument("--num_dataloaders", type=int, default=5)
 parser.add_argument("--num_sub_heads", type=int, default=5)
@@ -264,9 +264,9 @@ def train(render_count=-1):
                      sobel=False,
                      use_sub_head=sub_head)
 
-    # print("Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
-    # if config.double_eval:
-      # print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
+    print("Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
+    if config.double_eval:
+      print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
     sys.stdout.flush()
     next_epoch = 1
 
@@ -366,7 +366,7 @@ def train(render_count=-1):
 
           if ((b_i % 100) == 0) or (e_i == next_epoch):
             print(
-              "Model ind %d epoch %d head %s batch: %d avg loss %f avg loss no "
+              r"Model ind %d epoch %d head %s batch: %d avg loss %f avg loss no "
               "lamb %f time %s" % \
               (config.model_ind, e_i, head, b_i, avg_loss_batch.item(),
                avg_loss_no_lamb_batch.item(), datetime.now()))
