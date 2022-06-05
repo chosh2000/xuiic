@@ -46,13 +46,18 @@ def _hungarian_match(flat_preds, flat_targets, preds_k, targets_k):
 
   # num_correct is small
   match = linear_assignment(num_samples - num_correct)
-  match = np.array(match)
+  # match = np.array(match)s
   print(match)
 
   # return as list of tuples, out_c to gt_c
   res = []
-  for out_c, gt_c in match:
+  for i in range(len(match[0])):
+    out_c = match[0][i]
+    gt_c = match[1][i]
     res.append((out_c, gt_c))
+
+  # for out_c, gt_c in match:
+      # res.append((out_c, gt_c))
 
   return res
 
