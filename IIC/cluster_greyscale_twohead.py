@@ -16,7 +16,7 @@ import numpy as np
 import torch
 import torchvision
 
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 import code.archs as archs
@@ -255,19 +255,19 @@ def train(render_count=-1):
     config.epoch_loss_no_lamb_head_B = []
 
     sub_head = None
-    if config.select_sub_head_on_loss:
-      sub_head = get_subhead_using_loss(config, dataloaders_head_B, net,
-                                        sobel=False, lamb=config.lamb_B)
-    _ = cluster_eval(config, net,
-                     mapping_assignment_dataloader=mapping_assignment_dataloader,
-                     mapping_test_dataloader=mapping_test_dataloader,
-                     sobel=False,
-                     use_sub_head=sub_head)
+    # if config.select_sub_head_on_loss:
+    #   sub_head = get_subhead_using_loss(config, dataloaders_head_B, net,
+    #                                     sobel=False, lamb=config.lamb_B)
+    # _ = cluster_eval(config, net,
+    #                  mapping_assignment_dataloader=mapping_assignment_dataloader,
+    #                  mapping_test_dataloader=mapping_test_dataloader,
+    #                  sobel=False,
+    #                  use_sub_head=sub_head)
 
-    print("Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
-    if config.double_eval:
-      print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
-    sys.stdout.flush()
+    # print("Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
+    # if config.double_eval:
+    #   print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
+    # sys.stdout.flush()
     next_epoch = 1
 
   fig, axarr = plt.subplots(6 + 2 * int(config.double_eval), sharex=False,
@@ -345,6 +345,25 @@ def train(render_count=-1):
           # times 2
           all_imgs = all_imgs[:curr_total_batch_sz, :, :, :]
           all_imgs_tf = all_imgs_tf[:curr_total_batch_sz, :, :, :]
+          print(all_imgs.shape)
+          copies = 700 / config.num_dataloaders #700/5 = 140
+          plt.figure()
+          for i in range(len(all_imgs)):
+            if i % copies == 0:
+              plt.subplot(2,1,1)
+              plt.imshow(all_imgs[i][0])
+              plt.subplot(2,1,2)
+              plt.imshow(all_imgs_tf[i][0])
+              plt.show()
+          #50419 21314 35361 72869 40911 24321 38690 56076 18793 98593 30749 80941 44604 56100 17163 02111 90267 83904 67468 07831 57171 16302 93110 49200 20271 86416 34391 33854 = 28*5 = 140 repeating numbers
+          #50419 21314 35361 72869 
+
+          # for i in range(1):
+          #   plt.subplot(2,1,1)
+          #   plt.imshow(all_imgs[i][0])
+          #   plt.subplot(2,1,2)
+          #   plt.imshow(all_imgs_tf[i][0])
+          #   plt.show()
 
           x_outs = net(all_imgs)
           x_tf_outs = net(all_imgs_tf)
